@@ -1,5 +1,9 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
 plugins {
     id("java")
+    id("application")
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "ru.kpfu.itis.paramonov"
@@ -10,10 +14,11 @@ repositories {
 }
 
 dependencies {
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
+    implementation("org.springframework:spring-webmvc:${properties["springVersion"]}")
+    implementation("org.apache.tomcat.embed:tomcat-embed-jasper:${properties["tomcatVersion"]}")
+    implementation("org.json:json:${properties["jsonVersion"]}")
 }
 
-tasks.getByName<Test>("test") {
-    useJUnitPlatform()
+tasks.withType<ShadowJar> {
+    mergeServiceFiles()
 }
